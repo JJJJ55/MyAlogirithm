@@ -1,0 +1,109 @@
+package Tier_4;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Ex20056 {
+	static int n,m,k;
+	static int di[] = {-1,-1,0,1,1,1,0,-1};
+	static int dj[] = {0,1,1,1,0,-1,-1,-1};
+	static List<fire> arr[][];
+	static class fire{
+		int m;
+		int d;
+		int s;
+		public fire(int m, int d, int s) {
+			super();
+			this.m = m;
+			this.d = d;
+			this.s = s;
+		}
+		
+	}
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(st.nextToken());
+		
+		arr = new List[n+1][n+1];
+		for(int i=1;i<=n;i++) {
+			for(int j=1;j<=n;j++) {
+				arr[i][j] = new ArrayList<fire>();
+			}
+		}
+		for(int i=0;i<m;i++) {
+			st = new StringTokenizer(br.readLine());
+			int x = Integer.parseInt(st.nextToken());
+			int y = Integer.parseInt(st.nextToken());
+			int m = Integer.parseInt(st.nextToken());
+			int d = Integer.parseInt(st.nextToken());
+			int s = Integer.parseInt(st.nextToken());
+			
+			arr[x][y].add(new fire(m,d,s));
+			
+		}
+		while(k-->0) {
+			for(int i=0;i<list.size();i++) { // 이동
+				fire f = list.get(i);
+				int ni = f.i +(di[f.d]*f.s)%n;
+				int nj = f.j +(dj[f.d]*f.s)%n;
+				
+				if(ni<1) {
+					ni = n-Math.abs(ni);
+				} else if(ni>n){
+					ni = ni-n;
+				}
+				if(nj<1) {
+					nj = n-Math.abs(nj);
+				} else if(nj>n){
+					nj = nj-n;
+				}
+				f.i = ni;
+				f.j = nj;
+				arr[ni][nj].add(f.idx);
+			}
+			
+			for(int i=1;i<=n;i++) {
+				for(int j=1;j<=n;j++) {
+					if(arr[i][j].size()>=2) {
+						sum(i,j);
+					}
+				}
+			}
+		}
+	}
+	
+	static void sum(int x,int y) {
+		List<Integer> test = new ArrayList<Integer>();
+		int cnt = arr[x][y].size();
+		int msum = 0;
+		int ssum = 0;
+		boolean flag1 = true; //짝수체크
+		boolean flag2 = true; //홀수체크
+		for(int i=0;i<arr[x][y].size();i++) {
+			fire f = list.get(arr[x][y].get(i));
+			if(f.d%2!=0) {
+				flag1 = false;
+			} else {
+				flag2 = false;
+			}
+			msum+=f.m;
+			ssum+=f.s;
+		}
+		
+		int mavg = msum/5;
+		int savg = ssum/cnt;
+		
+		if(mavg!=0 && (flag1 || flag2)) {
+			list.add(new fire)
+		}
+	}
+}

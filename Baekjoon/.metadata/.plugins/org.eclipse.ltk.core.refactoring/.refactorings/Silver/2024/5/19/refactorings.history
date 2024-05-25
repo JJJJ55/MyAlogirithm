@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Tier_1.Ex1325&apos; to &apos;Ex1325서버이상해&apos;&#x0D;&#x0A;- Original project: &apos;Silver&apos;&#x0D;&#x0A;- Original element: &apos;Tier_1.Ex1325&apos;&#x0D;&#x0A;- Renamed element: &apos;Tier_1.Ex1325서버이상해&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Ex1325&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Tier_1{Ex1325.java[Ex1325" matchStrategy="1" name="Ex1325서버이상해" qualified="false" references="true" similarDeclarations="false" stamp="1714910154624" textual="false" version="1.0"/>
+</session>

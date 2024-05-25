@@ -1,0 +1,9 @@
+package D4;
+
+public class main {
+	public static void main(String[] args) {
+		String str = "123456789";
+		
+		//숫자를 1차원 배열에 저장하고 그 합을 출력하시오.
+	}
+}

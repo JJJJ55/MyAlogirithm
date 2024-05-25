@@ -1,0 +1,36 @@
+package Tier_3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Ex20057 {
+	static int arr[][], n;
+	static int di[] = { 0, 1, 0, -1 };
+	static int dj[] = { -1, 0, 1, 0 };
+	static int dc[] = { 1, 1, 2, 2 };
+	static int[][] dsx = { { -1, 1, -2, -1, 1, 2, -1, 1, 0 }, { -1, -1, 0, 0, 0, 0, 1, 1, 2 }, 
+			{ 1, -1, 2, 1, -1, -2, 1, -1, 0 }, { 1, 1, 0, 0, 0, 0, -1, -1, -2 } };
+	static int[][] dsy = { { 1, 1, 0, 0, 0, 0, -1, -1, -2 }, { -1, 1, -2, -1, 1, 2, -1, 1, 0 },
+			{ -1, -1, 0, 0, 0, 0, 1, 1, 2 }, { 1, -1, 2, 1, -1, -2, 1, -1, 0 } };
+	static int[] sandRatio = { 1, 1, 2, 7, 7, 2, 10, 10, 5 };
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+
+		n = Integer.parseInt(br.readLine());
+		arr = new int[n][n];
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine());
+			for (int j = 0; j < n; j++) {
+				arr[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		int ans = sand(n/2,n/2);
+		System.out.println(ans);
+
+	}
+}

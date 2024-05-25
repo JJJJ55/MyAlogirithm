@@ -1,0 +1,82 @@
+package Tier_4;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Ex1261 {
+	static int arr[][],n,m;
+	static int di[] = {-1,1,0,0};
+	static int dj[] = {0,0,-1,1};
+	static int cnt;
+	
+	static class miro implements Comparable<miro>{
+		int i;
+		int j;
+		int cnt;
+		public miro(int i, int j, int cnt) {
+			super();
+			this.i = i;
+			this.j = j;
+			this.cnt = cnt;
+		}
+		@Override
+		public int compareTo(miro o) {
+			return this.cnt - o.cnt;
+		}
+		
+	}
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		arr = new int[n][m];
+		
+		for(int i=0;i<n;i++) {
+			char c[] = br.readLine().toCharArray();
+			for(int j=0;j<m;j++) {
+				arr[i][j] = c[j]-'0';
+			}
+		}
+		
+		int ans = bfs(0,0);
+		
+		System.out.println(ans);
+	}
+	
+	static int bfs(int i, int j) {
+		PriorityQueue<miro> q = new PriorityQueue<miro>();
+		boolean visit[][] = new boolean[n][m];
+		q.add(new miro(i,j,0));
+		visit[i][j] = true;
+		
+		while(!q.isEmpty()) {
+			miro t = q.poll();
+			
+			if(t.i ==n-1 && t.j == m-1) {
+				return t.cnt;
+			}
+			
+			for(int d=0;d<4;d++) {
+				int ni = t.i+di[d];
+				int nj = t.j+dj[d];
+				
+				if(ni>=0 && ni<n && nj>=0 && nj<m && !visit[ni][nj]) {
+					visit[ni][nj] = true;
+					if(arr[ni][nj]==0) {
+						q.add(new miro(ni,nj,t.cnt));
+					} else {
+						q.add(new miro(ni,nj,t.cnt+1));
+					}
+				}
+			}
+		}
+		return 0;
+	}
+}

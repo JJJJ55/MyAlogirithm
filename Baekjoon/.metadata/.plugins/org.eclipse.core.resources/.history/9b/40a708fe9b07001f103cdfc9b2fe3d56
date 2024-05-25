@@ -1,0 +1,137 @@
+package Tier_3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Ex20058 {
+	static int arr[][],n,q,l;
+	static int ll[],total,big;
+	static int di[] = {-1,1,0,0};
+	static int dj[] = {0,0,-1,1};
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		st = new StringTokenizer(br.readLine());
+		n = (int)Math.pow(2, Integer.parseInt(st.nextToken()));
+		q = Integer.parseInt(st.nextToken());
+		
+		arr = new int[n][n];
+		ll = new int[q];
+		for(int i=0;i<n;i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j<n;j++) {
+				arr[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		st = new StringTokenizer(br.readLine());
+		for(int i=0;i<q;i++) {
+			ll[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		for(int i=0;i<q;i++) {
+			arr = step1(ll[i]); // 구역 나누기
+//			print(arr);
+			arr = melt();
+		}
+		
+		bfs();
+		System.out.println(total);
+		System.out.println(big);
+		
+	}
+	
+	static int[][] step1(int l) {
+		int temp[][] = new int[n][n];
+		l = (int)Math.pow(2, l);
+		for(int i=0;i<n;i+=l) {
+			for(int j=0;j<n;j+=l) {
+				rotation(i,j,l,temp);
+			}
+		}
+		return temp;
+	}
+	
+	static void rotation(int x, int y,int l, int temp[][]) {
+		for(int i=0;i<l;i++) {
+			for(int j=0;j<l;j++) {
+				temp[x+j][l-i-1+y] = arr[x+i][y+j];
+//				print(temp);
+			}
+		}
+	}
+	
+	static int [][] melt() {
+		int temp[][] = new int[n][n];
+		for(int i=0;i<n;i++) {
+			temp[i] = Arrays.copyOf(arr[i], n);
+		}
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				if(arr[i][j]==0) continue;
+				int cnt = 0;
+				for(int d=0;d<4;d++) {
+					int ni = i+di[d];
+					int nj = j+dj[d];
+					if(ni>=0 && ni<n && nj>=0 && nj<n && arr[ni][nj]>0) {
+						cnt++;
+					}
+				}
+				if(cnt>=3) {
+					temp[i][j]--;
+				}
+			}
+		}
+		return temp;
+	}
+	
+	static void bfs() {
+		Queue<int[]> q = new ArrayDeque<int[]>();
+		boolean visit[][] = new boolean[n][n];
+		
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				total+=arr[i][j];
+				if(arr[i][j]!=0 && !visit[i][j]) {
+					q.add(new int[] {i,j});
+					visit[i][j] = true;
+					int cnt = 1;
+					
+					while(!q.isEmpty()) {
+						int info[] = q.poll();
+						
+						for(int d=0;d<4;d++) {
+							int ni = info[0]+di[d];
+							int nj = info[1]+dj[d];
+							if(ni>=0 && ni<n && nj>=0 && nj<n) {
+								if(arr[ni][nj]!=0 && !visit[ni][nj]) {
+									visit[ni][nj] = true;
+									q.add(new int[] {ni,nj});
+									cnt++;
+								}
+							}
+						}
+					}
+					big = Math.max(big, cnt);
+				}
+			}
+		}
+	}
+	
+	static void print(int arr[][]) {
+		for(int i=0;i<arr.length;i++) {
+			for(int j=0;j<arr[i].length;j++) {
+				System.out.print(arr[i][j]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println("====================");
+	}
+}

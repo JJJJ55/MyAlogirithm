@@ -1,0 +1,81 @@
+package Tier_3;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Ex11779 {
+	static int n,m;
+	static List<bus>list[];
+	static int dist[];
+	static class bus implements Comparable<bus>{
+		int to;
+		int cost;
+		public bus(int to, int cost) {
+			super();
+			this.to = to;
+			this.cost = cost;
+		}
+		@Override
+		public int compareTo(bus o) {
+			return this.cost - o.cost;
+		}
+	}
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		n = Integer.parseInt(br.readLine());
+		m = Integer.parseInt(br.readLine());
+		
+		list = new List[n+1];
+		dist = new int[n+1];
+		for(int i=1;i<=n;i++) {
+			list[i] = new ArrayList<bus>();
+			dist[i] = Integer.MAX_VALUE;
+		}
+		
+		for(int i=0;i<m;i++) {
+			st = new StringTokenizer(br.readLine());
+			int from = Integer.parseInt(st.nextToken());
+			int to = Integer.parseInt(st.nextToken());
+			int cost = Integer.parseInt(st.nextToken());
+			
+			list[from].add(new bus(to,cost));
+		}
+		st = new StringTokenizer(br.readLine());
+		int start = Integer.parseInt(st.nextToken());
+		int end = Integer.parseInt(st.nextToken());
+		dik(start, end);
+		
+		System.out.println();
+	}
+	
+	static void dik(int start, int end) {
+		PriorityQueue<bus> q = new PriorityQueue<bus>();
+		boolean visit[] = new boolean[n+1];
+		dist[start] = 0;
+		q.add(new bus(start,0));
+		
+		while(!q.isEmpty()) {
+			bus cur = q.poll();
+			if(cur.to == end) {
+				return;
+			}
+			if(!visit[cur.to]) {
+				visit[cur.to] = true;
+				for(bus b : list[cur.to]) {
+					if(!visit[b.to] && dist[b.to] > dist[cur.to]+cur.cost) {
+						dist[b.to] = dist[cur.to]+cur.cost;
+						q.add(new bus(b.to,dist[cur.to]));
+					}
+				}
+			}
+		}
+	}
+}

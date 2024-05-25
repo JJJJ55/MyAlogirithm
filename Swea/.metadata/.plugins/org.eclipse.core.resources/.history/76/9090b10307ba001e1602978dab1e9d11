@@ -1,0 +1,9 @@
+package D4;
+
+import java.util.Random;
+
+public class main {
+	public static void byWhile() {
+
+	}
+}

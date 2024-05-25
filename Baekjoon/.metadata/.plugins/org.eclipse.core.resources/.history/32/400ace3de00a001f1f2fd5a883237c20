@@ -1,0 +1,15 @@
+package Tier_4;
+
+import java.util.Scanner;
+
+public class Ex14226 {
+
+	static boolean[][] visit = new boolean[1001][1001];
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int s = sc.nextInt();
+		
+		bfs(s);
+	}
+}

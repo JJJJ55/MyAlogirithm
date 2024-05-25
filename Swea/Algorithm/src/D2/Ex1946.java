@@ -1,0 +1,35 @@
+package D2;
+
+import java.util.Scanner;
+
+public class Ex1946 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		
+		for (int t = 0; t < T; t++) {
+			int n = sc.nextInt();
+			
+			String str[] = new String[n];
+			int arr[] = new int[n];
+			for(int i=0;i<n;i++) {
+				str[i] = sc.next();
+				arr[i] = sc.nextInt();
+			}
+			int idx = 1;
+			System.out.printf("#%d\n",t+1);
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<arr[i];j++) {
+					System.out.print(str[i]);
+					if(idx==10) {
+						System.out.println();
+						idx=1;
+					} else {
+						idx++;
+					}
+				}
+			}
+			System.out.println();
+		}
+	}
+}

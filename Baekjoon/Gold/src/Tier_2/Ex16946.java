@@ -1,0 +1,98 @@
+package Tier_2;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Ex16946 {
+	static int n,m,arr[][],gr[][];
+	static int di[] = {-1,1,0,0};
+	static int dj[] = {0,0,-1,1};
+	static Map<Integer, Integer> g;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		arr = new int[n][m];
+		gr = new int[n][m];
+		
+		for(int i=0;i<n;i++) {
+			char c[] = br.readLine().toCharArray();
+			for(int j=0;j<m;j++) {
+				arr[i][j] = c[j]-'0';
+			}
+		}
+		
+		int cnt = 1;
+		g = new HashMap<Integer, Integer>();
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				if(arr[i][j]==0 && gr[i][j]==0) {
+					g.put(cnt, bfs(i,j,cnt));
+					cnt++;
+				}
+			}
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				if(gr[i][j]==0) {
+					sb.append(count(i,j)+"");
+				} else {
+					sb.append(0+"");
+				}
+			}
+			sb.append("\n");
+		}
+		System.out.println(sb);
+	}
+	
+	static int bfs(int i, int j, int cnt) {
+		Queue<int[]> q =new ArrayDeque<int[]>();
+		q.add(new int[] {i,j});
+		gr[i][j]=cnt;
+		int tmp = 1;
+		while(!q.isEmpty()) {
+			int info[] = q.poll();
+			for(int d=0;d<4;d++) {
+				int ni = info[0]+di[d];
+				int nj = info[1]+dj[d];
+				if(ni>=0 && ni<n && nj>=0 && nj<m && arr[ni][nj]==0 && gr[ni][nj]==0) {
+					gr[ni][nj] = cnt;
+					tmp++;
+					q.add(new int[] {ni,nj});
+				}
+			}
+		}
+		return tmp;
+	}
+	
+	static int count(int i, int j) {
+		Set<Integer> set = new HashSet<Integer>();
+		int cnt = 1;
+		for(int d=0;d<4;d++) {
+			int ni = i+di[d];
+			int nj = j+dj[d];
+			if(ni>=0 && ni<n && nj>=0 && nj<m && gr[ni][nj]!=0) {
+				set.add(gr[ni][nj]);
+			}
+		}
+		for(int x : set) {
+			cnt+=g.get(x);
+		}
+		return cnt%10;
+	}
+}

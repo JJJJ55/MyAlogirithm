@@ -1,0 +1,146 @@
+package Tier_2;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Ex19238 {
+	static int arr[][],n,m,a;
+	static int si,sj;
+	static int di[] = {-1,1,0,0};
+	static int dj[] = {0,0,-1,1};
+	static taxi[] t;
+	
+	static class taxi implements Comparable<taxi>{
+		int si;
+		int sj;
+		int gi;
+		int gj;
+		int move;
+		public taxi(int si, int sj,int gi, int gj, int move) {
+			super();
+			this.si = si;
+			this.sj = sj;
+			this.gi = gi;
+			this.gj = gj;
+			this.move = move;
+		}
+		@Override
+		public String toString() {
+			return "taxi [si=" + si + ", sj=" + sj + ", gi=" + gi + ", gj=" + gj + ", move=" + move + "]";
+		}
+		@Override
+		public int compareTo(taxi o) {
+			if(this.si == o.si) {
+				return this.sj - o.sj;
+			}
+			return this.si - o.si;
+		}
+		
+	}
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		a = Integer.parseInt(st.nextToken());
+		
+		arr = new int[n][n];
+		t = new taxi[m];
+		for(int i=0;i<n;i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j<n;j++) {
+				arr[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		st = new StringTokenizer(br.readLine());
+		si = Integer.parseInt(st.nextToken())-1;
+		sj = Integer.parseInt(st.nextToken())-1;
+		
+		for(int i=0;i<m;i++) {
+			st = new StringTokenizer(br.readLine());
+			int si = Integer.parseInt(st.nextToken())-1;
+			int sj = Integer.parseInt(st.nextToken())-1;
+			int gi = Integer.parseInt(st.nextToken())-1;
+			int gj = Integer.parseInt(st.nextToken())-1;
+			
+			arr[si][sj] = 2+i;
+			t[i] = new taxi(si,sj,gi,gj,Math.abs(si-gi)+Math.abs(sj-gj));
+		}
+//		print();
+		while(m-->0) {
+			taxi pick = bfsPick();
+//			System.out.println(a);
+			if(pick==null) {
+				System.out.println(-1);
+				return;
+			}
+			System.out.println(pick.toString());
+			if(pick.move > a) {
+				System.out.println(-1);
+				return;
+			} else if(pick.move<=a) {
+				a+=pick.move;
+				si = pick.gi;
+				sj = pick.gj;
+			}
+		}
+		
+		
+		System.out.println(a);
+	}
+	
+	static taxi bfsPick() {
+		PriorityQueue<taxi> pq = new PriorityQueue<taxi>();
+		Queue<int[]> q =new ArrayDeque<int[]>();
+		boolean visit[][] = new boolean[n][n];
+		q.add(new int[] {si,sj});
+		visit[si][sj] = true;
+		
+		while(!q.isEmpty()) {
+			if(a==0) break;
+			a--;
+			int size = q.size();
+			for(int s=0;s<size;s++) {
+				int info[] = q.poll();
+				for(int d=0;d<4;d++) {
+					int ni = info[0]+di[d];
+					int nj = info[1]+dj[d];
+					if(ni>=0 && ni<n && nj>=0 && nj<n && !visit[ni][nj] && arr[ni][nj]!=1) {
+						if(arr[ni][nj]!=0) { //사람 발견
+							pq.add(t[arr[ni][nj]-2]);
+						} else {
+							q.offer(new int[] {ni,nj});
+							visit[ni][nj] = true;
+						}
+					}
+				}
+			}
+			if(!pq.isEmpty()) {
+				taxi p = pq.poll();
+				arr[p.si][p.sj] = 0;
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	static void print() {
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				System.out.print(arr[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+}

@@ -1,0 +1,62 @@
+package D2;
+
+import java.util.Scanner;
+
+public class Ex1979 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int T = sc.nextInt();
+		
+		for(int t=0;t<T;t++) {
+			int n = sc.nextInt();
+			int k = sc.nextInt();
+			int arr[][] = new int[n][n];
+			
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<n;j++) {
+					arr[i][j] = sc.nextInt();
+				}
+			}
+			int count = 0;
+			int tmp = 0;
+			
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<n;j++) {
+					if(arr[i][j]==1) {
+						tmp++;
+					}
+					else if(tmp>=1 && arr[i][j]==0) {
+						if(tmp==k) {
+							count++;
+						}
+						tmp=0;
+					}
+				}
+				if(tmp==k) {
+					count++;
+				}
+				tmp = 0;
+			}
+			
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<n;j++) {
+					if(arr[j][i]==1) {
+						tmp++;
+					}
+					else if(tmp>=1 && arr[j][i]==0) {
+						if(tmp==k) {
+							count++;
+						}
+						tmp=0;
+					}
+				}
+				if(tmp==k) {
+					count++;
+				}
+				tmp = 0;
+			}
+			System.out.printf("#%d %d\n",t+1,count);
+		}
+	}
+}

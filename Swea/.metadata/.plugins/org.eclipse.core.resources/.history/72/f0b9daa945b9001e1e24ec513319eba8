@@ -1,0 +1,8 @@
+package D4;
+
+public class test01 {
+	public static void main(String[] args) {
+		int a = 'A';
+		System.out.println(a);
+	}
+}

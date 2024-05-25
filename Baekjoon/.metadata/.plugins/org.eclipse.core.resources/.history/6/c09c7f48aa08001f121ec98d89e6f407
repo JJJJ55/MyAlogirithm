@@ -1,0 +1,74 @@
+package Tier_4;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Ex1043 {
+	static int n,m;
+	static List<Integer>list[];
+	static Set<Integer> t;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		list = new List[m];
+		
+		st = new StringTokenizer(br.readLine());
+		t = new HashSet<Integer>();
+		
+		int t_length = Integer.parseInt(st.nextToken());
+		for(int i=0;i<t_length;i++) { // 진실
+			t.add(Integer.parseInt(st.nextToken()));
+		}
+		
+		for(int i=0;i<m;i++) {
+			boolean flag = false;
+			list[i] = new ArrayList<Integer>();
+			st = new StringTokenizer(br.readLine());
+			int k = Integer.parseInt(st.nextToken());
+			for(int j=0;j<k;j++) {
+				int num = Integer.parseInt(st.nextToken());
+				list[i].add(num);
+				if(t.contains(num)) { // 이 무리 중 진실을 아는 사람이 있으면? 말 못함
+					flag = true;
+				}
+			}
+			if(flag) {
+				for(int j=0;j<list[i].size();j++) {
+					t.add(list[i].get(j));
+				}
+			}
+		}
+		
+		if(t_length==0) { // 진실을 아는이가 없으면
+			System.out.println(m);
+			return;
+		}
+		
+		int ans = 0;
+		for(int i=0;i<m;i++) {
+			boolean flag = true;
+			for(int j=0;j<list[i].size();j++) {
+				if(t.contains(list[i].get(j))) {
+					flag = false;
+					break;
+				}
+			}
+			if(flag) {
+				ans++;
+			}
+		}
+		System.out.println(ans);
+	}
+}

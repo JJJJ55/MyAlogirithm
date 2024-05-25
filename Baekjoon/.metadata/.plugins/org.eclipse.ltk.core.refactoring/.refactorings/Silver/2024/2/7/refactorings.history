@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Tier_4.Main&apos; to &apos;Ex2567&apos;&#x0D;&#x0A;- Original project: &apos;Silver&apos;&#x0D;&#x0A;- Original element: &apos;Tier_4.Main&apos;&#x0D;&#x0A;- Renamed element: &apos;Tier_4.Ex2567&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Main&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;Tier_4{Main.java[Main" matchStrategy="1" name="Ex2567" qualified="false" references="true" similarDeclarations="false" stamp="1707713547871" textual="false" version="1.0"/>
+</session>

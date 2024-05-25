@@ -1,0 +1,64 @@
+package Tier_4;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Ex12851 {
+	static int n, k;
+	static ArrayList<Integer> list;
+	
+	static class t{
+		int x;
+		int jump;
+		public t(int x, int jump) {
+			super();
+			this.x = x;
+			this.jump = jump;
+		}
+		
+	}
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		n = sc.nextInt();
+		k = sc.nextInt();
+		
+		bfs();
+		
+		
+	}
+	
+	static void bfs() {
+		Queue<t> q = new ArrayDeque<t>();
+		boolean visit[][] = new boolean[2][100001];
+		q.add(new t(n,0));
+		visit[0][n] = true;
+		int time = 0;
+		
+		while(!q.isEmpty()) {
+			int size = q.size();
+			for(int s=0;s<size;s++) {
+				t cur = q.poll();
+				if(cur.x == k) {
+					list.add(time);
+					continue;
+				}
+				
+				if(cur.x-1>=0 && !visit[cur.jump][cur.x-1]) {
+					visit[cur.jump][cur.x-1] = true;
+					q.add(new t(cur.x-1,cur.jump));
+				}
+				if(cur.x+1 <=100000 && !visit[cur.jump][cur.x+1]) {
+					visit[cur.jump][cur.x+1] = true;
+					q.add(new t(cur.x+1,cur.jump));
+				}
+				if(cur.x*2 <=100000 && !visit[1][cur.x*2]) { //점프
+					visit[1][cur.x*2] = true;
+					q.add(new t(cur.x,1));
+				}
+			}
+		}
+	}
+}

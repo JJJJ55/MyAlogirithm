@@ -1,0 +1,95 @@
+package Tier_5;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Ex18428 {
+	static int n;
+	static char arr[][];
+	static int di[] = {-1,1,0,0};
+	static int dj[] = {0,0,-1,1};
+	static boolean visit[];
+	static List<int[]> list = new ArrayList<int[]>();
+	static List<int[]> t = new ArrayList<int[]>();
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
+		n = Integer.parseInt(br.readLine());
+		arr = new char[n][n];
+		
+		for(int i=0;i<n;i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0;j<n;j++) {
+				arr[i][j] = st.nextToken().charAt(0);
+				if(arr[i][j]=='X') {
+					list.add(new int[] {i,j});
+				} else if(arr[i][j]=='T') {
+					t.add(new int[] {i,j});
+				}
+			}
+		}
+		
+		visit = new boolean[list.size()];
+		
+		dfs(0,0);
+		System.out.println("NO");
+	}
+	
+	static void dfs(int idx, int cnt) {
+		if(idx==3) {
+			char test[][] = new char[n][n];
+			for(int i=0;i<n;i++) {
+				for(int j=0;j<n;j++) {
+					test[i][j] = arr[i][j];
+				}
+			}
+			
+			for(int i=0;i<list.size();i++) {
+				if(visit[i]) {
+					int info[] = list.get(i);
+					test[info[0]][info[1]] = 'O';
+				}
+			}
+			
+			if(isPlay(test)) {
+				System.out.println("YES");
+				System.exit(0);
+			}
+			return;
+		}
+		for(int i=cnt;i<list.size();i++) {
+			if(!visit[i]) {
+				visit[i] = true;
+				dfs(idx+1,i);
+				visit[i] = false;
+			}
+		}
+	}
+	
+	static boolean isPlay(char[][] test) {
+		for(int i=0;i<t.size();i++) {
+			int info[] = t.get(i);
+			for(int d=0;d<4;d++) {
+				int ni = info[0]+di[d];
+				int nj = info[1]+dj[d];
+				while(true) {
+					if(ni<0 || ni>=n || nj<0 || nj>=n || test[ni][nj]=='O') {
+						break;
+					}
+					if(test[ni][nj]=='S') {
+						return false;
+					}
+					ni+=di[d];
+					nj+=dj[d];
+				}
+			}
+		}
+		return true;
+	}
+}
